@@ -1,13 +1,11 @@
 import random
 
-p = 2
-q = 7
+p = 11
+q = 13
 
 publickeytwo = p*q
-print("{} is the second part of the public key".format(publickeytwo))
 
-coprimephi = []
-
+privatekeytwo = publickeytwo
 
 def coprime(n):
   factorlist = []
@@ -24,17 +22,15 @@ def coprime(n):
   return coprimelist
 
 coprime_n = coprime(publickeytwo)
-print(coprime_n)
 
 coprime_n_size = (p-1)*(q-1)
 
 if len(coprime_n) == coprime_n_size:
-  print("Successful check of co-prime. Elements in list is {}".format(len(coprime_n)))
+  print("Successful check of co-prime")
 else:
   print("Went wrong somewhere")
 
 coprime_phi_n = coprime(coprime_n_size)
-print(coprime_phi_n)
 
 combinedlist = []
 
@@ -42,13 +38,61 @@ for i in range(len(coprime_n)):
   if coprime_n[i] in coprime_phi_n and coprime_n[i] > 1 and coprime_n[i] < coprime_n_size:
     combinedlist.append(coprime_n[i])
 
-print(combinedlist)
-
 publickeyone = random.choice(combinedlist)
 
-print(publickeyone)
-
 print("Public keys: {},{}".format(publickeyone,publickeytwo))
+
+
+def extendedeuclidean(dividend,divisor):
+    s=[1,0]
+    t=[0,1]
+    counter = 1 #starts off at index 1
+    remainder = 2
+    while(remainder != 0):
+        quotient = dividend // divisor
+        remainder = dividend % divisor
+        dividend = divisor
+        divisor = remainder
+        svalue = s[counter-1] - quotient*s[counter]
+        tvalue = t[counter-1] - quotient*t[counter]
+        s.insert(counter+1,svalue)
+        t.insert(counter+1,tvalue)
+        counter = counter+1
+        remainder = dividend % divisor
+    
+    return(s[-1],t[-1])
+
+
+test,privatekeyone = extendedeuclidean(coprime_n_size,publickeyone)
+if privatekeyone < 0:
+    privatekeyone = privatekeyone + coprime_n_size
+    
+    
+print("Private keys: {},{}".format(privatekeyone,privatekeytwo))
+
+
+
+
+
+
+#TESTING
+    
+originalmessage = 2
+
+print("Original message:{}".format(originalmessage))
+
+
+encoded = (originalmessage ** publickeyone) % publickeytwo
+
+print("Encoded message:{}".format(encoded))
+
+decoded = (encoded**privatekeyone) % publickeytwo
+
+print("Decoded message:{}".format(decoded))
+
+
+
+
 
 
 #Above code refers to the generation of the public key.
