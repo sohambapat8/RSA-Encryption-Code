@@ -11,7 +11,7 @@ def coprime(n):
   factorlist = []
   coprimelist = []
   for i in range(1,n):
-    if i <= n//2 and n % i == 0:
+    if n % i == 0:
       factorlist.append(i)
     flag = True
     for k in range(len(factorlist)):
