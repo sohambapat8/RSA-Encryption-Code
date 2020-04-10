@@ -1,7 +1,7 @@
 import random
 
 p = 11
-q = 13
+q = 13 #set to small numbers for testing purposes, prime randomiser function would be used instead of this.
 
 publickeytwo = p*q
 
@@ -11,7 +11,7 @@ def coprime(n):
   factorlist = []
   coprimelist = []
   for i in range(1,n):
-    if n % i == 0:
+    if i <= n//2 and n % i == 0:
       factorlist.append(i)
     flag = True
     for k in range(len(factorlist)):
@@ -68,9 +68,7 @@ if privatekeyone < 0:
     privatekeyone = privatekeyone + coprime_n_size
     
     
-print("Private keys: {},{}".format(privatekeyone,privatekeytwo))
-
-
+print("Private keys: {},{}. Note this would be kept secret in an industrial application".format(privatekeyone,privatekeytwo))
 
 
 
